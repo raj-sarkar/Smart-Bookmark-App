@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Smart Bookmark App
 
-## Getting Started
+A simple bookmark manager built with Next.js (App Router) and Supabase.
+Users can sign in with Google OAuth and add/remove bookmarks (title + link).
 
-First, run the development server:
+🚀 Tech Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Next.js (App Router)
+- TypeScript
+- Supabase (Auth + Database + Realtime)
+- Vercel (Deployment)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+⚡ Challenges Faced & Learnings
+1️⃣ OAuth Redirect Issues (Local vs Production)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Faced redirect_uri_mismatch and callback errors after deployment.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Learned how OAuth flow works between Google → Supabase → App callback route.
 
-## Learn More
+- Configured correct Site URL and Redirect URLs in Supabase.
 
-To learn more about Next.js, take a look at the following resources:
+- Understood difference between local (localhost) and production (Vercel) environments.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2️⃣ Server vs Client Supabase Setup
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Faced:
 
-## Deploy on Vercel
+- Cookies can only be modified in a Server Action or Route Handler
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Learned proper separation between: createClientComponentClient & createServerComponentClient
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Understood how session handling works in Next.js App Router.
+
+3️⃣ State Not Updating After Insert
+
+- Bookmarks were saved in DB but not showing without refresh.
+
+- Fixed by updating local React state immediately after insert/delete.
+
+- Learned importance of keeping UI state in sync with database.
+
+4️⃣ TypeScript Type Issues
+
+- Faced errors like:
+
+ Property 'auth' does not exist on type 'Promise<SupabaseClient>'
+
+
+- Learned proper async handling and typing for Supabase responses.
+
+- Fixed any[] | null vs never[] state mismatch.
+
+5️⃣ Route Protection
+
+- Users could access login page even when authenticated.
+
+- Implemented session checks and redirects.
+
+- Learned how to handle protected routes in Next.js App Router.
+
+🎯 Key Takeaways
+
+- Deeper understanding of OAuth flow
+
+- Proper Supabase + Next.js integration
+
+- Handling authentication securely in production
+
+- Real-world debugging experience
